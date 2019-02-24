@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SimpleWithConditionComponent should render content by default 1`] = `
+<div>
+  Loaded
+</div>
+`;
+
+exports[`SimpleWithConditionComponent should render content if isLoading is false 1`] = `
+<div>
+  Loaded
+</div>
+`;
+
+exports[`SimpleWithConditionComponent should render nothing if isLoading is true 1`] = `""`;

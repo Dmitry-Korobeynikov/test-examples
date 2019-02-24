@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SimpleComponent should render default content 1`] = `
+<div>
+  default
+</div>
+`;
+
+exports[`SimpleComponent should render not default content 1`] = `
+<div>
+  not default content
+</div>
+`;

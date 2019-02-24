@@ -1,0 +1,115 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    // JSX только в файлах .jsx, нам не нужно
+    "react/jsx-filename-extension": 0,
+
+    // import/no-extraneous-dependencies, no-unresolved, import/no-unresolved
+    // Зависимости должны быть описаны в dependencies и должны резолвится,
+    // мы не можем это включить из-за webpack alias'ов
+    "import/no-extraneous-dependencies": 0,
+    "no-unresolved": 0,
+    "import/no-unresolved": 0,
+
+    // Мы не хотим при импорте указывать расширение файла
+    "import/extensions": 0,
+
+    // Нам к сожалению нужны интерактивные div'ы
+    "jsx-a11y/no-static-element-interactions": 0,
+
+    // Мы не подменяем прототипы объектов, поэтому правило не имеет для нас
+    // ценности
+    "no-prototype-builtins": 0,
+
+    // Ребята из airbnb считают, что даже в циклах не стоит использовать ++
+    // в основном потому, что они в целом избегают for, while, и т.д.
+    // мы же их иногда используем
+    "no-plusplus": ["error", {
+      "allowForLoopAfterthoughts": true
+    }],
+
+    // Решили всегда писать у функций body т.к.
+    // >> С @Konstantin Zhdanov заметили что часто при дебаге мы добавляем
+    // >> для функции body, а после дебага - удаляем, может имеет смысл всегда писать body?
+    //
+    // Голосовали, результат always - 3, as-needed - 1
+    "arrow-body-style": ["error", "always"],
+
+    // Переделывали вот такой:
+    // 'react/sort-comp': ['error', {
+    //   order: [
+    //     'static-methods',
+    //     'lifecycle',
+    //     '/^on.+$/',
+    //     'getters',
+    //     'setters',
+    //     '/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/',
+    //     'everything-else',
+    //     '/^render.+$/',
+    //     'render'
+    //   ],
+    // }]
+    // Переделывали чтобы:
+    // onClick ближе к render'ам
+    // onDataChanged ближе к lifecycle
+    "react/sort-comp": ["error", {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "/^on.+Changed$/",
+        "getters",
+        "setters",
+        "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+        "everything-else",
+        "/^on.+$/",
+        "/^render.+$/",
+        "render"
+      ]
+    }],
+
+    // Запрещаем функции с телом в одну строчку типа (arg) => { return arg; }
+    // Делаем перенос строки обязательным
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+
+    // Выключили для тестирования. Т.к ругается на кейсы аля expect(...).to.be.true
+    "no-unused-expressions": 0,
+
+    // Тернарник обязательно должен быть многострочным вида
+    // condition
+    //   ? expression1
+    //   : expression2
+    "multiline-ternary": ["error", "always"],
+    "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
+
+    // все if должны быть с фигурными скобками
+    "curly": ["error", "all"],
+
+    // https://eslint.org/docs/rules/function-paren-newline
+    // https://eslint.org/docs/rules/object-curly-newline
+    // Не нашел подходящую для нас опцию, голосовали за miltiline, но с ним не
+    // все ок
+    "function-paren-newline": "off",
+    "object-curly-newline": "off",
+
+    // Нам не нужно
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    "jsx-a11y/mouse-events-have-key-events": "off",
+    "react/prefer-stateless-function": 0
+  },
+  "globals": {
+    "__DEVELOPMENT__": true,
+    "__CLIENT__": true,
+    "__SERVER__": true,
+    "__TEST__": true,
+    "JSFCORE_VERSION": true
+  }
+}

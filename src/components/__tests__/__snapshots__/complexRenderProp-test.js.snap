@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComplexRenderPropComponent should render correct layout by default 1`] = `
+<SimpleComponent>
+  <SimpleRenderPropComponent>
+    <Component />
+  </SimpleRenderPropComponent>
+</SimpleComponent>
+`;
+
+exports[`ComplexRenderPropComponent should render correct layout with not default loadingValue 1`] = `
+<SimpleComponent>
+  <SimpleRenderPropComponent>
+    <Component />
+  </SimpleRenderPropComponent>
+</SimpleComponent>
+`;
+
+exports[`ComplexRenderPropComponent should render correct layout inside SimpleRenderPropComponent by default 1`] = `
+<SimpleWithConditionComponent
+  isLoading={false}
+/>
+`;
+
+exports[`ComplexRenderPropComponent should render correct layout inside SimpleRenderPropComponent for loadingValue !== configValue 1`] = `
+<SimpleWithConditionComponent
+  isLoading={false}
+/>
+`;
+
+exports[`ComplexRenderPropComponent should render correct layout inside SimpleRenderPropComponent for loadingValue === configValue 1`] = `
+<SimpleWithConditionComponent
+  isLoading={true}
+/>
+`;

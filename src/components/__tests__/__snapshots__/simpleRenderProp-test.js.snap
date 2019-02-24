@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SimpleRenderPropComponent should render proper content 1`] = `"some children content"`;

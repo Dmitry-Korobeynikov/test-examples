@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Connect(ConnectedComponent) Wrapped ConnectedComponent should render correct layout if isEnabled is false 1`] = `"disabled"`;
+
+exports[`Connect(ConnectedComponent) Wrapped ConnectedComponent should render correct layout if isEnabled is true 1`] = `"enabled"`;
