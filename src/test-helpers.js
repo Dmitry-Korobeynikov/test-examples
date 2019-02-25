@@ -7,26 +7,18 @@ export const renderShallow = (Component, props = {}, initialState = undefined) =
   const store = createStoreForTests(initialState);
   const context = { store };
   const childContextTypes = { store: PropTypes.shape({}) };
-  const shallowWrapper = shallow(<Component {...props} />, { context, childContextTypes });
 
-  // it's connected component
-  if (Component.WrappedComponent) {
-    // any side effects?
-    // if yes then just export mapStateToProps, mapDispatchToProps and mergeProps separately
-    // one more option is to create fakeConnect by using jest.mock(...)
-    shallowWrapper.connectedProps = shallowWrapper.instance()
-      .selectDerivedProps(store.getState(), {}, store);
-  }
-
-  return shallowWrapper;
+  return shallow(<Component {...props} />, { context, childContextTypes });
 };
 
-export const callRenderProp = (shallowWrapper, childSelector = null, name = 'children') => {
+/*
+ * shallowWrapper: it should be an object returned from enzyme.shallow(...)
+ * childSelector: could be a component display name, component constructor, an object with props...
+ *   (https://airbnb.io/enzyme/docs/api/selector.html)
+ * propName: it's property name which used as a render prop
+ */
+export const callRenderProp = (shallowWrapper, childSelector, propName = 'children') => {
   return (...args) => {
-    const innerWrapper = childSelector
-      ? shallowWrapper.find(childSelector)
-      : shallowWrapper;
-
-    return innerWrapper.renderProp(name)(...args);
+    return shallowWrapper.find(childSelector).renderProp(propName)(...args);
   };
 };

@@ -1,4 +1,4 @@
-import { globalFlag, timers, externalDependency } from '../logic';
+import { globalFlag, timers, externalDependency, asyncLogic } from '../logic';
 
 import * as selectors from '../../selectors/selectors';
 
@@ -55,6 +55,7 @@ describe('timers', () => {
 
   it('should not fail if cb is undefined', () => {
     expect(timers).not.toThrow();
+    // or .toThrow(<message or error class>) if function should throw an exception
   });
 
   it('should setup timers', () => {
@@ -98,6 +99,7 @@ describe('timers', () => {
   });
 });
 
+// external = external relatively to testing unit
 describe('externalDependency', () => {
   let isFalsyField;
 
@@ -133,5 +135,32 @@ describe('externalDependency', () => {
     const result = externalDependency();
 
     expect(result).toEqual(true);
+  });
+});
+
+describe('asyncLogic', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
+
+  it('should return Promise', () => {
+    const promise = asyncLogic();
+
+    expect(promise).toBeInstanceOf(Promise);
+  });
+
+  it('should resolved with "result" string', () => {
+    const promise = asyncLogic();
+
+    jest.runAllTimers();
+
+    return promise.then((result) => {
+      expect(result).toBe('result');
+    });
   });
 });

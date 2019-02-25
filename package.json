@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "lint": "eslint src",
-    "test": "jest --maxWorkers=5",
-    "test-cover": "jest --coverage --maxWorkers=5"
+    "jest": "jest --maxWorkers=5",
+    "jest-cover": "jest --coverage --maxWorkers=5"
   },
   "author": "Dmitry Korobeynikov",
   "license": "ISC",

@@ -1,4 +1,5 @@
 import { SIMPLE_ACTION } from '../consts';
+import { asyncLogic } from '../modules/logic';
 
 export const simpleAction = (payload) => {
   return {
@@ -16,5 +17,16 @@ export const thunkAction = () => {
     } else if (typeof field === 'boolean') {
       dispatch(simpleAction(!field));
     }
+  };
+};
+
+export const thunkAsyncAction = () => {
+  return (dispatch) => {
+    dispatch(exports.thunkAction());
+
+    asyncLogic()
+      .then((result) => {
+        dispatch(exports.simpleAction(result));
+      });
   };
 };

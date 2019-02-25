@@ -1,18 +1,20 @@
 import { createStoreForTests } from '../create';
 import { SIMPLE_ACTION } from '../../consts';
-import { simpleAction, thunkAction } from '../actions';
+import * as logic from '../../modules/logic';
+
+import * as actions from '../actions';
 
 describe('Actions', () => {
   describe('simpleAction', () => {
     it('should create correct action if no payload', () => {
-      const action = simpleAction();
+      const action = actions.simpleAction();
 
       expect(action).toEqual({ type: SIMPLE_ACTION, payload: undefined });
     });
 
     it('should create correct action with payload', () => {
       const payload = 123;
-      const action = simpleAction(payload);
+      const action = actions.simpleAction(payload);
 
       expect(action).toEqual({ type: SIMPLE_ACTION, payload });
     });
@@ -36,25 +38,75 @@ describe('Actions', () => {
 
     it('should dispatch correct simpleAction if store.field is string', () => {
       const field = 'some filed value';
-      thunkAction()(dispatch, getStateFactory({ field }));
+      actions.thunkAction()(dispatch, getStateFactory({ field }));
 
-      expect(dispatch).toHaveBeenCalledWith(simpleAction(`not ${field}`));
+      expect(dispatch).toHaveBeenCalledWith(actions.simpleAction(`not ${field}`));
     });
 
     it('should dispatch correct simpleAction if store.field is bool', () => {
       const field = true;
-      thunkAction()(dispatch, getStateFactory({ field }));
+      actions.thunkAction()(dispatch, getStateFactory({ field }));
 
-      expect(dispatch).toHaveBeenCalledWith(simpleAction(!field));
+      expect(dispatch).toHaveBeenCalledWith(actions.simpleAction(!field));
     });
 
     it('should not dispatch if store.field is something else', () => {
       const field = 42;
-      thunkAction()(dispatch, getStateFactory({ field }));
+      actions.thunkAction()(dispatch, getStateFactory({ field }));
 
       expect(dispatch).toHaveBeenCalledTimes(0);
       // or
       expect(dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('thunkAsyncAction', () => {
+    let dispatch;
+    const asyncLogicResult = { asyncLogicResult: true };
+    const thunkActionResult = { thunkActionResult: true };
+    const simpleActionResult = { simpleActionResult: true };
+
+    beforeAll(() => {
+      dispatch = jest.fn();
+
+      jest.spyOn(logic, 'asyncLogic').mockImplementation(() => {
+        return Promise.resolve(asyncLogicResult);
+      });
+
+      jest.spyOn(actions, 'thunkAction').mockReturnValue(thunkActionResult);
+      jest.spyOn(actions, 'simpleAction').mockReturnValue(simpleActionResult);
+    });
+
+    beforeEach(() => {
+      return actions.thunkAsyncAction()(dispatch);
+    });
+
+    afterEach(() => {
+      dispatch.mockClear();
+
+      logic.asyncLogic.mockClear();
+      actions.thunkAction.mockClear();
+      actions.simpleAction.mockClear();
+    });
+
+    afterAll(() => {
+      logic.asyncLogic.mockRestore();
+      actions.thunkAction.mockRestore();
+      actions.simpleAction.mockRestore();
+    });
+
+    it('should call thunkAction', () => {
+      expect(actions.thunkAction).toHaveBeenCalledWith();
+      expect(dispatch).toHaveBeenCalledWith(thunkActionResult);
+    });
+
+    it('should call asyncLogic', () => {
+      expect(logic.asyncLogic).toHaveBeenCalledWith();
+    });
+
+    it('should call simpleAction with asyncLogic result', () => {
+      expect(actions.simpleAction).toHaveBeenCalledWith(asyncLogicResult);
+      expect(dispatch).toHaveBeenCalledWith(simpleActionResult);
     });
   });
 });

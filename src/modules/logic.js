@@ -21,11 +21,20 @@ export const timers = (callback = () => {}) => {
   }, 1000);
 };
 
+// external = external relatively to this file
 export const externalDependency = () => {
   const store = simpleReducer();
 
   return isFalsyField({
     ...store,
     field: store.field === 1,
+  });
+};
+
+export const asyncLogic = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('result');
+    }, 50);
   });
 };

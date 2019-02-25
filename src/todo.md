@@ -4,6 +4,7 @@
 - [x] reducer `src/store/__tests__/simpleReducer-test.js`
 - [x] selector `src/selectors/__tests__/selectors-test.js`
 - [x] saga `src/modules/__tests__/saga-test.js`
+- [ ] async action at saga `src/modules/__tests__/saga-test.js`
 - [x] function with external dependencies (jest.spyOn) `src/modules/__tests__/logic-test.js`
 - [x] function with external dependencies (jest.mock, so called es6 mocks) `src/modules/__tests__/logic-test.js`
 - [x] function with timers `src/modules/__tests__/logic-test.js`
@@ -18,3 +19,7 @@
 - [ ] components with refs
 - [ ] component with state
 - [ ] etc...
+
+May be helpful extension:
+- https://github.com/FormidableLabs/enzyme-matchers/blob/master/packages/jest-enzyme/README.md
+- https://github.com/jest-community/jest-extended

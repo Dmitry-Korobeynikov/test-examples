@@ -3,13 +3,9 @@ import { renderShallow } from '../../test-helpers';
 import ConnectedComponent from '../connected';
 
 describe('Connect(ConnectedComponent)', () => {
-  it('should pass all needed props into wrapped component', () => {
-    const wrapper = renderShallow(ConnectedComponent);
-
-    expect(wrapper.connectedProps).toEqual({
-      isEnabled: expect.any(Boolean),
-      thunkAction: expect.any(Function),
-    });
+  it.skip('should pass all needed props into wrapped component', () => {
+    // we don't test mapStateToProps, mapDispatchToProps and mergeProps if they are trivial
+    // otherwise export them separately and test it
   });
 
   describe('Wrapped ConnectedComponent', () => {
