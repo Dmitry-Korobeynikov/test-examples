@@ -14,6 +14,11 @@ describe('saga', () => {
       jest.spyOn(actions, 'simpleAction').mockImplementation();
     });
 
+    afterEach(() => {
+      selectors.getField.mockClear();
+      actions.simpleAction.mockClear();
+    });
+
     afterAll(() => {
       selectors.getField.mockRestore();
       actions.simpleAction.mockRestore();
@@ -37,6 +42,10 @@ describe('saga', () => {
   describe('watchSagaExample', () => {
     beforeAll(() => {
       jest.spyOn(sagas, 'sagaExample').mockImplementation();
+    });
+
+    afterEach(() => {
+      sagas.sagaExample.mockClear();
     });
 
     afterAll(() => {
