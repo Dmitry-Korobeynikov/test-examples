@@ -1,9 +1,10 @@
-import { put, select } from 'redux-saga/effects';
+import { put, select, takeEvery } from 'redux-saga/effects';
 
+import { SAGA_TRIGGER_ACTION } from '../consts';
 import { getField } from '../selectors/selectors';
 import { simpleAction } from '../store/actions';
 
-export default function* sagaExample() {
+export function* sagaExample() {
   const field = yield select(getField, 'param');
 
   if (field) {
@@ -11,4 +12,8 @@ export default function* sagaExample() {
   } else {
     yield put(simpleAction('defaultValue'));
   }
+}
+
+export function* watchSagaExample() {
+  yield takeEvery(SAGA_TRIGGER_ACTION, exports.sagaExample);
 }

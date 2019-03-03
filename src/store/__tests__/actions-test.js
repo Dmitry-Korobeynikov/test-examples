@@ -1,5 +1,5 @@
 import { createStoreForTests } from '../create';
-import { SIMPLE_ACTION } from '../../consts';
+import { SIMPLE_ACTION, SAGA_TRIGGER_ACTION } from '../../consts';
 import * as logic from '../../modules/logic';
 
 import * as actions from '../actions';
@@ -107,6 +107,14 @@ describe('Actions', () => {
     it('should call simpleAction with asyncLogic result', () => {
       expect(actions.simpleAction).toHaveBeenCalledWith(asyncLogicResult);
       expect(dispatch).toHaveBeenCalledWith(simpleActionResult);
+    });
+  });
+
+  describe('sagaTriggerAction', () => {
+    it('should create correct action', () => {
+      const action = actions.sagaTriggerAction();
+
+      expect(action).toEqual({ type: SAGA_TRIGGER_ACTION });
     });
   });
 });

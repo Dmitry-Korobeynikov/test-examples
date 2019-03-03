@@ -1,4 +1,4 @@
-import { SIMPLE_ACTION } from '../consts';
+import { SIMPLE_ACTION, SAGA_TRIGGER_ACTION } from '../consts';
 import { asyncLogic } from '../modules/logic';
 
 export const simpleAction = (payload) => {
@@ -29,4 +29,8 @@ export const thunkAsyncAction = () => {
         dispatch(exports.simpleAction(result));
       });
   };
+};
+
+export const sagaTriggerAction = () => {
+  return { type: SAGA_TRIGGER_ACTION };
 };
