@@ -1,41 +1,62 @@
-import { put, select } from 'redux-saga/effects';
+import { createStoreForSagaTests } from '../../test-helpers';
+import * as selectors from '../../selectors/selectors';
+import * as actions from '../../store/actions';
+import * as sagas from '../saga';
 
-import { getField } from '../../selectors/selectors';
-import { simpleAction } from '../../store/actions';
-import sagaExample from '../saga';
+describe('saga', () => {
+  describe('sagaExample', () => {
+    let getFieldResult;
 
-describe('sagaExample', () => {
-  it('should get field from store', () => {
-    const generator = sagaExample();
-    const next = generator.next(); // get field from store
+    beforeAll(() => {
+      jest.spyOn(selectors, 'getField').mockImplementation(() => {
+        return getFieldResult;
+      });
+      jest.spyOn(actions, 'simpleAction').mockImplementation();
+    });
 
-    expect(next.value).toEqual(select(getField, 'param'));
-    expect(next.done).toBe(false);
+    afterEach(() => {
+      selectors.getField.mockClear();
+      actions.simpleAction.mockClear();
+    });
+
+    afterAll(() => {
+      selectors.getField.mockRestore();
+      actions.simpleAction.mockRestore();
+    });
+
+    it('should call simpleAction(field) if field is not empty', () => {
+      getFieldResult = 123;
+      createStoreForSagaTests(sagas.sagaExample);
+
+      expect(actions.simpleAction).toHaveBeenCalledWith(getFieldResult);
+    });
+
+    it('should call simpleAction(defaultValue) if field is empty', () => {
+      getFieldResult = null;
+      createStoreForSagaTests(sagas.sagaExample);
+
+      expect(actions.simpleAction).toHaveBeenCalledWith('defaultValue');
+    });
   });
 
-  it('should put simpleAction(field) if field is not empty', () => {
-    const field = 'some value';
-    const generator = sagaExample();
-    generator.next(); // get field from store
+  describe('watchSagaExample', () => {
+    beforeAll(() => {
+      jest.spyOn(sagas, 'sagaExample').mockImplementation();
+    });
 
-    const next = generator.next(field); // put action depends on field value
+    afterEach(() => {
+      sagas.sagaExample.mockClear();
+    });
 
-    expect(next.value).toEqual(put(simpleAction(field)));
-    expect(next.done).toBe(false);
+    afterAll(() => {
+      sagas.sagaExample.mockRestore();
+    });
 
-    expect(generator.next().done).toBe(true);
-  });
+    it('should call sagaExample if SAGA_TRIGGER_ACTION action is dispatched', () => {
+      const store = createStoreForSagaTests(sagas.watchSagaExample);
+      store.dispatch(actions.sagaTriggerAction());
 
-  it('should put simpleAction(defaultValue) if field is empty', () => {
-    const field = null;
-    const generator = sagaExample();
-    generator.next(); // get field from store
-
-    const next = generator.next(field); // put action depends on field value
-
-    expect(next.value).toEqual(put(simpleAction('defaultValue')));
-    expect(next.done).toBe(false);
-
-    expect(generator.next().done).toBe(true);
+      expect(sagas.sagaExample).toHaveBeenCalled();
+    });
   });
 });

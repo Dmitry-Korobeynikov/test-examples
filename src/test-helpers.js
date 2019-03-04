@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow } from 'enzyme';
-import { createStoreForTests } from './store/create';
+import { createStoreForTests, createStoreForSagaTests } from './store/create';
 
 export const renderShallow = (Component, props = {}, initialState = undefined) => {
   const store = createStoreForTests(initialState);
-  const context = { store };
+  const context = { store }; // TODO: add localization context
   const childContextTypes = { store: PropTypes.shape({}) };
 
   return shallow(<Component {...props} />, { context, childContextTypes });
@@ -21,4 +21,8 @@ export const callRenderProp = (shallowWrapper, childSelector, propName = 'childr
   return (...args) => {
     return shallowWrapper.find(childSelector).renderProp(propName)(...args);
   };
+};
+
+export {
+  createStoreForSagaTests,
 };
