@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FunctionalComponentWithHooks should render default content 1`] = `
+<div
+  onClick={[Function]}
+>
+  test
+</div>
+`;
+
+exports[`FunctionalComponentWithHooks should render new content 1`] = `
+<div
+  onClick={[Function]}
+>
+  second
+</div>
+`;
