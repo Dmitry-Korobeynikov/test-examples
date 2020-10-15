@@ -14,6 +14,7 @@
 - [x] component with render prop `src/components/__tests__/simpleRenderProp-test.js`
 - [x] component in component `src/components/__tests__/complexRenderProp-test.js`
 - [x] connected component `src/components/__tests__/connected-test.js`
+- [x] functional component with hooks useCallback, useSelector and useDispatch `src/components/__tests__/functionalComponentWithHooks-test.js`
 - [ ] component with DOM logic
 - [ ] component's lifecycle methods (use setProps for componentWillReceiveProps)
 - [ ] components with refs
